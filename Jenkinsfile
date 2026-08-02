@@ -10,7 +10,6 @@ pipeline {
     stages {
         stage('test var breakage') {
             steps{
-                sh "echo Deploying to ${NONEXISTENT}"
                 sh 'echo Deploying to $NONEXISTENT'
             }
         }
