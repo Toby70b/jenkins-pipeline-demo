@@ -22,7 +22,7 @@ pipeline {
         }
         stage('Package') {
             steps {
-                echo 'packaging the application for ${params.ENVIRONMENT} environment'
+                echo "packaging the application for ${params.ENVIRONMENT} environment"
                 sh 'mvn -B package -DskipTests'
              }
         }
