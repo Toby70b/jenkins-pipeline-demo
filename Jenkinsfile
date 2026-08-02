@@ -21,8 +21,10 @@ pipeline {
             }
         }
         stage('Package') {
-            echo 'packaging the application for ${params.ENVIRONMENT} environment'
-            steps { sh 'mvn -B package -DskipTests' }
+            steps {
+                echo 'packaging the application for ${params.ENVIRONMENT} environment'
+                sh 'mvn -B package -DskipTests'
+             }
         }
     }
     post {
