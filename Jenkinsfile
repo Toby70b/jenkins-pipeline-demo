@@ -13,7 +13,7 @@ pipeline {
         }
         stage('Test') {
             when {
-                expression { !return params.SKIP_TESTS }
+                expression { return !params.SKIP_TESTS }
             }
             steps { sh 'mvn test' }
             post {
