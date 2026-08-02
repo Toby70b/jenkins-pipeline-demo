@@ -9,8 +9,10 @@ pipeline {
     }
     stages {
         stage('test var breakage') {
-            sh "echo Deploying to ${NONEXISTENT}"
-            sh 'echo Deploying to $NONEXISTENT'
+            steps{
+                sh "echo Deploying to ${NONEXISTENT}"
+                sh 'echo Deploying to $NONEXISTENT'
+            }
         }
         stage('Compile') {
             steps { sh 'mvn -B clean compile' }
