@@ -28,7 +28,7 @@ pipeline {
         }
 
        stage('Deploy') {
-            when { branch 'main' }
+            when { branch 'master' }
             steps {
                 echo "Deploying the application to ${params.ENVIRONMENT} environment"
             }
