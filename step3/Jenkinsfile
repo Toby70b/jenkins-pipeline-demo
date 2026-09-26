@@ -4,15 +4,10 @@ pipeline {
         maven 'maven-3.9'
     }
     parameters {
-        choice(name: 'ENVIRONMENT', choices: ['dev','staging','prod'], description: 'target enviornment')
+        choice(name: 'ENVIRONMENT', choices: ['dev','staging','prod'], description: 'target environment')
         booleanParam(name: 'SKIP_TESTS', defaultValue: false, description: 'Skip the test stage')
     }
     stages {
-        stage('test var breakage') {
-            steps{
-                sh 'echo Deploying to $NONEXISTENT'
-            }
-        }
         stage('Compile') {
             steps { sh 'mvn -B clean compile' }
         }
@@ -20,7 +15,7 @@ pipeline {
             when {
                 expression { return !params.SKIP_TESTS }
             }
-            steps { sh 'mvn test' }
+            steps { sh 'mvn -B test' }
             post {
                 always { junit 'target/surefire-reports/*.xml' }
             }
@@ -30,6 +25,13 @@ pipeline {
                 echo "packaging the application for ${params.ENVIRONMENT} environment"
                 sh 'mvn -B package -DskipTests'
              }
+        }
+
+       stage('Deploy') {
+            when { branch 'main' }
+            steps {
+                echo "Deploying the application to ${params.ENVIRONMENT} environment"
+            }
         }
     }
     post {
