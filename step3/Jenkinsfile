@@ -15,7 +15,13 @@ pipeline {
             when {
                 expression { return !params.SKIP_TESTS }
             }
-            steps { sh 'mvn -B test' }
+            steps {
+                sh 'mvn -B test'
+                   retry(3) {
+                        sh 'exit $((RANDOM % 2))'
+                   }
+            }
+
             post {
                 always { junit 'target/surefire-reports/*.xml' }
             }
