@@ -16,6 +16,9 @@ pipeline {
                 expression { return !params.SKIP_TESTS }
             }
             steps {
+                timeout(time: 1, unit: 'SECONDS') {
+                  sh 'sleep 2'
+                }
                 sh 'mvn -B test'
                    retry(3) {
                       sh '''
