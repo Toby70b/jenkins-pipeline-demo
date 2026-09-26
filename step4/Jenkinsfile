@@ -15,7 +15,7 @@ pipeline {
             steps {
                 echo "MY_SECRET: ${MY_SECRET}"
                 sh "Unmasked ${MY_SECRET}"
-                withCredentials([string(credentialsId: 'toby_peel',)]) variable: 'PASSWORD' {
+                withCredentials([string(credentialsId: 'toby_peel', variable: 'PASSWORD' )]) {
                     echo "PASSWORD: ${PASSWORD}"
                     sh "echo unmasked ${PASSWORD}"
                 }
