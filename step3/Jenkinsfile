@@ -17,10 +17,8 @@ pipeline {
             }
             steps {
                 catchError(buildResult: 'SUCCESS', stageResult: 'UNSTABLE') {
-                    timeout(time: 2, unit: 'SECONDS') {
-                        echo 'Sleeping for five seconds to simulate a long-running test...'
-                        sleep 5
-                    }
+                    echo 'catchError block: Simulating a test failure...'
+                    sh 'exit 1'
                 }
                 sh 'mvn -B test'
                 retry(3) {
@@ -35,6 +33,17 @@ pipeline {
 
             post {
                 always { junit 'target/surefire-reports/*.xml' }
+            }
+        }
+        stage('Long external process') {
+             when {
+                expression { !params.SKIP_EXTERNAL_PROCESS }
+            }
+            steps {
+               timeout(time: 2, unit: 'SECONDS') {
+                 echo 'Sleeping for five seconds to simulate a long-running test...'
+                 sh 'sleep 5'
+                }
             }
         }
         stage('Package') {
