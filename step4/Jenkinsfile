@@ -14,10 +14,13 @@ pipeline {
         stage('print secrets') {
             steps {
                 echo "MY_SECRET: ${MY_SECRET}"
-                echo "Unmasked ${MY_SECRET}"
-                withCredentials([string(credentialsId: 'toby_peel', variable: 'PASSWORD')]) {
+                echo "Unmasked MY_SECRET ${MY_SECRET}"
+                withCredentials([usernamePassword(credentialsId: 'toby_peel', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]) {
+                    echo "USERNAME: ${USERNAME}"
+                    echo "unmasked USERNAME ${USERNAME}"
+
                     echo "PASSWORD: ${PASSWORD}"
-                    echo "unmasked ${PASSWORD}"
+                    echo "unmasked PASSWORD ${PASSWORD}"
                 }
             }
         }
