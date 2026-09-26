@@ -16,10 +16,10 @@ pipeline {
                 expression { return !params.SKIP_TESTS }
             }
             steps {
-                catchError(buildResult: 'UNSTABLE', stageResult: 'FAILURE') {
-                    timeout(time: 1, unit: 'SECONDS') {
-                        sh 'Sleeping for two seconds to simulate a long-running test...'
-                        sh 'sleep 2'
+                catchError(buildResult: 'SUCCESS', stageResult: 'UNSTABLE') {
+                    timeout(time: 2, unit: 'SECONDS') {
+                        sh 'Sleeping for five seconds to simulate a long-running test...'
+                        sleep 5
                     }
                 }
                 sh 'mvn -B test'
