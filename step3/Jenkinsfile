@@ -18,9 +18,12 @@ pipeline {
             steps {
                 sh 'mvn -B test'
                    retry(3) {
+                      sh '''
                         echo 'Rolling the dice to simulate flaky tests...'
-                        sh 'exit $((shuf -i 1-100 -n 1 % 2))'
-                        sh 'Roll succeeded, moving on to the next step.'
+                        ROLL = $((shuf -i 1-100 -n 1))
+                        echo "Rolled a $ROLL"
+                        sh 'exit $((Roll % 2))'
+                        '''
                    }
             }
 
