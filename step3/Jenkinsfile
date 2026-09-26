@@ -17,17 +17,17 @@ pipeline {
             }
             steps {
                 timeout(time: 1, unit: 'SECONDS') {
-                  sh 'sleep 2'
+                    sh 'sleep 2'
                 }
                 sh 'mvn -B test'
-                   retry(3) {
-                      sh '''
-                        echo 'Rolling the dice to simulate flaky tests...'
-                        ROLL=$(shuf -i 1-100 -n 1)
-                        echo "Rolled: $ROLL"
-                        test "$ROLL" -gt 50
-                        '''
-                   }
+                retry(3) {
+                    sh '''
+                    echo 'Rolling the dice to simulate flaky tests...'
+                    ROLL=$(shuf -i 1-100 -n 1)
+                    echo "Rolled: $ROLL"
+                    test "$ROLL" -gt 50
+                    '''
+                }
             }
 
             post {
