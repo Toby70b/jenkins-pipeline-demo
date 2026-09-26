@@ -19,7 +19,7 @@ pipeline {
                 sh 'mvn -B test'
                    retry(3) {
                         echo 'Rolling the dice to simulate flaky tests...'
-                        sh 'exit $((RANDOM % 2))'
+                        sh 'exit $((shuf -i 1-100 -n 1 % 2))'
                    }
             }
 
